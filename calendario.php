@@ -35,7 +35,7 @@ class Calendario{
 		$ultimoDia = date("t", mktime(0,0,0,$mesAtual,'01',$anoAtual));
 
 		//Variáveis para pegar em qual dia da semana o mês inicia
-		$dataInicial = strtotime($anoAtual.'-'.$mesAtual.'-01');			
+		$dataInicial = strtotime($anoAtual.'-'.$mesAtual.'-1');			
 		$data = new DateTime(date('Y-m-d', $dataInicial));
 		$diaSemanaInicia = (int) $data->format('w');
 		
@@ -43,7 +43,7 @@ class Calendario{
 		$proximoMes = date("m", strtotime("+1 months",$dataInicial));
 		$proximoAno = date("Y", strtotime("+1 months",$dataInicial));
 		
-		//Variaveis para link do mês anterior
+		//Variáveis para link do mês anterior
 		$mesAnterior = date("m", strtotime("-1 months",$dataInicial));
 		$anoAnterior = date("Y", strtotime("-1 months",$dataInicial));
 		
@@ -60,7 +60,7 @@ class Calendario{
 				</tr><tr>";
 		
 		for($i = 0; $i < 7; $i++){
-			$dia = substr($diasExtenso[$i],0,3);
+			$dia = substr($diasExtenso[$i],0,1);
 			$cal .= "<td align='center' width='40' height='40'>$dia</td>";
 		}
 			
@@ -78,9 +78,18 @@ class Calendario{
 					$j++;
 				}
 			}
-				
-			$cal .= "<td align='center' height='40'>$i</td>";
-				
+			
+			//Variáveis para comparar o dia para destacá-lo na tabela
+			$d = strtotime($anoAtual.'-'.$mesAtual.'-'.$i);
+			$dd = strtotime("today");
+			
+			//Destaca o dia atual na tabela
+			if($d == $dd){
+				$cal .= "<td align='center' height='40' bgcolor='#0AF'>$i</td>";
+			}else{
+				$cal .= "<td align='center' height='40'>$i</td>";
+			}
+			
 			//Quebra a linha da tabela, iniciando nova semana
 			if($j == 6 || $j == 13 || $j == 20 || $j == 27 || $j == 34){
 				$cal .= "</tr><tr>";
